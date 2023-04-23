@@ -9,14 +9,16 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-model User{
+
+model User {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  username String @db.VarChar(30) @unique
-  password String @db.VarChar(255) 
-  email String @db.VarChar(255) @unique
-  token String @db.VarChar(255) @default("")
-  tokenExp DateTime @default(now())
-  authToken String @db.VarChar(255) @default("")
+  username  String   @unique @db.VarChar(30)
+  password  String   @db.VarChar(255)
+  email     String   @unique @db.VarChar(255)
+  authToken String   @db.VarChar(255) @default(" ")
+  key       String   @db.VarChar(255) @default(" ")
+  hash      String   @db.VarChar(255) @default(" ")
+  verified  Boolean  @default(false)
 }

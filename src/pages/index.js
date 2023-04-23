@@ -12,7 +12,7 @@ const inter = Inter({ subsets: ['latin'] })
 export async function getServerSideProps(context){
   const authToken = context.req.cookies['authToken']
   if(authToken != null){
-    const res = await axios.post('http://localhost:3000/api/searchToken', {
+    const res = await axios.post('https://ire4ka.online/api/searchToken', {
       authToken
     }).catch(function(error){
     })
@@ -37,11 +37,11 @@ export default function Home() {
     const username = document.querySelector("#signup_username").value
     const password = document.querySelector("#signup_password").value
     const email = document.querySelector("#signup_email").value
-    await axios.post('/api/signup', {
+    await axios.post('https://ire4ka.online/api/signup', {
       username,
       password,
       email
-    }).then(function(response){
+    }).then(async function(response){
       location.reload()
     }).catch(function(error){
       alert("That email or username is already taken")
@@ -61,9 +61,17 @@ export default function Home() {
             maxAge: 60 * 60 * 24*7,
             path: '/'
           })
+          setCookie('username', username, {
+            maxAge: 60 * 60 * 24*7,
+            path: '/'
+          })
         }
         else{
           setCookie('authToken',response.data, {
+            expires: 0,
+            path: '/'
+          })
+          setCookie('username', username, {
             expires: 0,
             path: '/'
           })
@@ -102,7 +110,7 @@ export default function Home() {
                               <label className={styles.flex_align_center}><input id="remember_me" type="checkbox" /> Remember Me</label>
                               <p><a href="#">Forgot Password?</a></p>
                           </div>
-                          <button type="submit">Submit</button>
+                          <button type="submit">Log In</button>
                       </form>
                   </div>
 
@@ -125,7 +133,7 @@ export default function Home() {
                               <label className={styles.input_group__label} htmlFor="password">Password</label>
                           </div> 
                           <p><small>By submitting this form, you confirm you have read and agreed to the <a href="#">Terms and Conditions.</a></small></p>
-                          <button type="submit">Submit</button>
+                          <button type="submit">Sign up</button>
                       </form>
                   </div>
               </div>
